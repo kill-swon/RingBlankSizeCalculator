@@ -9,14 +9,46 @@ import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 import { MD3LightTheme as DefaultTheme, PaperProvider, TextInput, Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
+import { Dropdown } from 'react-native-paper-dropdown';
 
 export default function Index() {
-  const [isGauge, setIsGauge] = useState(false);
-  const ringSizes = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5];
-  const [ringSize, setRingSize] = useState('7');
+  // const [isGauge, setIsGauge] = useState(false);
+  // const [ringSize, setRingSize] = useState('7');
   const [metalThickness, setMetalThickness] = useState('');
   const [metalWidth, setMetalWidth] = useState('');
   const [blankLength, setBlankLength] = useState('');
+  // const ringSizes = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5];
+  const [ringSize, setRingSize] = useState<string>();
+  const ringSizeOptions = [
+    { label: '1', value: '1' },
+    { label: '1½', value: '1.5' },
+    { label: '2', value: '2' },
+    { label: '2½', value: '2.5' },
+    { label: '3', value: '3' },
+    { label: '3½', value: '3.5' },
+    { label: '4', value: '4' },
+    { label: '4½', value: '4.5' },
+    { label: '5', value: '5' },
+    { label: '5½', value: '5.5' },
+    { label: '6', value: '6' },
+    { label: '6½', value: '6.5' },
+    { label: '7', value: '7' },
+    { label: '7½', value: '7.5' },
+    { label: '8', value: '8' },
+    { label: '8½', value: '8.5' },
+    { label: '9', value: '9' },
+    { label: '9½', value: '9.5' },
+    { label: '10', value: '10' },
+    { label: '10½', value: '10.5' },
+    { label: '11', value: '11' },
+    { label: '11½', value: '11.5' },
+    { label: '12', value: '12' },
+    { label: '12½', value: '12.5' },
+    { label: '13', value: '13' },
+    { label: '13½', value: '13.5' },
+    { label: '14', value: '14' },
+    { label: '14½', value: '14.5' },
+  ];
 
   const theme = {
     ...DefaultTheme,
@@ -28,7 +60,12 @@ export default function Index() {
   };
 
   const calculateBlankLength = () => {
-    const ringSizeNum = parseFloat(ringSize);
+    // Error handling
+    if (!ringSize || !metalThickness || !metalWidth) {
+      setBlankLength('No numbers, no math...');
+      return;
+    }
+    const ringSizeNum = parseFloat(ringSize || '0');
     let metalThicknessNum = parseFloat(metalThickness);
     const metalWidthNum = parseFloat(metalWidth);
 
@@ -51,7 +88,7 @@ export default function Index() {
 
 
 
-    // List of ring sizes and their inner diameters in millimeters
+    // Key:Value list of ring sizes and their inner diameters in millimeters
     const ringSizeToId: { [key: number]: number } = { 1: 12.37, 1.5: 12.78, 2: 13.21, 2.5: 13.61, 3: 14.05, 3.5: 14.45, 4: 14.90, 4.5: 15.26, 5: 15.70, 5.5: 16.10, 6: 16.51, 6.5: 16.92, 7: 17.35, 7.5: 17.75, 8: 18.19, 8.5: 18.59, 9: 19.00, 9.5: 19.41, 10: 19.82, 10.5: 20.24, 11: 20.68, 11.5: 21.08, 12: 21.49, 12.5: 21.79, 13: 22.22, 13.5: 22.61, 14: 23.01, 14.5: 23.42 };
 
     const innerDiameter = ringSizeToId[ringSizeNum];
@@ -68,7 +105,7 @@ export default function Index() {
       calculatedLength += 0.5;
     }
 
-    setBlankLength(calculatedLength.toFixed(2) + ' mm');
+    setBlankLength('Blank Length: ' + calculatedLength.toFixed(2) + ' (mm)');
   };
 
 
@@ -76,14 +113,28 @@ export default function Index() {
     <PaperProvider theme={theme}>
       <View style={styles.container}>
 
-        <View style={styles.switchContainer}>
+        {/* <View style={styles.switchContainer}>
           <Text>Gauge</Text>
           <Switch value={isGauge} onValueChange={newIsGauge => setIsGauge(newIsGauge)} />
           <Text>mm</Text>
+        </View> */}
+
+
+
+        <View>
+          <Dropdown
+            label="Desired Ring Size"
+            placeholder="Select a ring size"
+            options={ringSizeOptions}
+            value={ringSize}
+            onSelect={setRingSize}
+            mode="outlined"
+          />
         </View>
 
 
-        <View style={styles.pickerContainer}>
+
+        {/* <View style={styles.pickerContainer}>
           <Picker
             selectedValue={ringSize}
             style={styles.picker}
@@ -93,7 +144,7 @@ export default function Index() {
               <Picker.Item key={size} label={size.toString()} value={size.toString()} />
             ))}
           </Picker>
-        </View>
+        </View> */}
 
 
         {/* <TextInput
@@ -106,7 +157,6 @@ export default function Index() {
 
 
         <TextInput
-          style={{ marginTop: 15 }}
           label="Metal Thickness (mm)" // Label prop for floating label (part of react-native-paper)
           mode="outlined" // Optional: adds an outline (part of react-native-paper)
           // placeholder={isGauge ? "Metal Thickness (Gauge)" : "Metal Thickness (mm)"} // (just a part of core but react-native-paper is better)
@@ -115,7 +165,6 @@ export default function Index() {
           onChangeText={setMetalThickness}
         />
         <TextInput
-          style={{ marginTop: 15 }}
           label="Metal Width (mm)" // Label prop for floating label (part of react-native-paper)
           mode="outlined" // Optional: adds an outline (part of react-native-paper)
           // placeholder="Metal Width (mm)" // (just a part of core but react-native-paper is better)
@@ -124,14 +173,14 @@ export default function Index() {
           onChangeText={setMetalWidth}
         />
         <Button
-          style={{ marginTop: 15 }}
+          style={styles.input}
           mode="contained"
           onPress={calculateBlankLength}
         >
           Calculate
         </Button>
         {/* {blankLength !== '' && <Text style={styles.result}>Blank Length: {blankLength}</Text>} */}
-        <Text style={styles.result}>Blank Length: {blankLength}</Text>
+        <Text style={styles.result}>{blankLength}</Text>
       </View>
     </PaperProvider>
   );
@@ -144,10 +193,10 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     // backgroundColor: '#f0f0f0', // Light gray background for the container
   },
-  input: {
+  output: {
     marginTop: 15,
   },
-  output: {
+  input: {
     marginTop: 15,
   },
   switchContainer: {
