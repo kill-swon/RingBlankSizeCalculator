@@ -1,54 +1,55 @@
-// TODO
-// react-native-paper select component?
-// dark theme
-// mm - gauge conversion
-// ring size nationalization
-// dynamic update instead of clicking button
+// Currently using Picker component instead of Dropdown (glitchy) component
+// TODO dark theme
+// TODO mm - gauge conversion
+// TODO ring size nationalization
+// TODO dynamic update instead of clicking button
+// TODO web styling
+// TODO ios
 
 import React, { useState } from 'react';
 import { View, Text, StyleSheet, Switch } from 'react-native';
 import { MD3LightTheme as DefaultTheme, PaperProvider, TextInput, Button } from 'react-native-paper';
 import { Picker } from '@react-native-picker/picker';
-import { Dropdown } from 'react-native-paper-dropdown';
+// import { Dropdown } from 'react-native-paper-dropdown';
 
 export default function Index() {
   // const [isGauge, setIsGauge] = useState(false);
-  // const [ringSize, setRingSize] = useState('7');
   const [metalThickness, setMetalThickness] = useState('');
   const [metalWidth, setMetalWidth] = useState('');
   const [blankLength, setBlankLength] = useState('');
-  // const ringSizes = [1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5];
-  const [ringSize, setRingSize] = useState<string>();
-  const ringSizeOptions = [
-    { label: '1', value: '1' },
-    { label: '1½', value: '1.5' },
-    { label: '2', value: '2' },
-    { label: '2½', value: '2.5' },
-    { label: '3', value: '3' },
-    { label: '3½', value: '3.5' },
-    { label: '4', value: '4' },
-    { label: '4½', value: '4.5' },
-    { label: '5', value: '5' },
-    { label: '5½', value: '5.5' },
-    { label: '6', value: '6' },
-    { label: '6½', value: '6.5' },
-    { label: '7', value: '7' },
-    { label: '7½', value: '7.5' },
-    { label: '8', value: '8' },
-    { label: '8½', value: '8.5' },
-    { label: '9', value: '9' },
-    { label: '9½', value: '9.5' },
-    { label: '10', value: '10' },
-    { label: '10½', value: '10.5' },
-    { label: '11', value: '11' },
-    { label: '11½', value: '11.5' },
-    { label: '12', value: '12' },
-    { label: '12½', value: '12.5' },
-    { label: '13', value: '13' },
-    { label: '13½', value: '13.5' },
-    { label: '14', value: '14' },
-    { label: '14½', value: '14.5' },
-  ];
+  const [ringSize, setRingSize] = useState(''); // PICKER
+  const ringSizes = ['Select a ring size', 1, 1.5, 2, 2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 10.5, 11, 11.5, 12, 12.5, 13, 13.5, 14, 14.5]; // PICKER
+  // const [ringSize, setRingSize] = useState<string>(); // DROPDOWN
+  // const ringSizeOptions = [ // DROPDOWN
+  //   { label: '1', value: '1' },
+  //   { label: '1½', value: '1.5' },
+  //   { label: '2', value: '2' },
+  //   { label: '2½', value: '2.5' },
+  //   { label: '3', value: '3' },
+  //   { label: '3½', value: '3.5' },
+  //   { label: '4', value: '4' },
+  //   { label: '4½', value: '4.5' },
+  //   { label: '5', value: '5' },
+  //   { label: '5½', value: '5.5' },
+  //   { label: '6', value: '6' },
+  //   { label: '6½', value: '6.5' },
+  //   { label: '7', value: '7' },
+  //   { label: '7½', value: '7.5' },
+  //   { label: '8', value: '8' },
+  //   { label: '8½', value: '8.5' },
+  //   { label: '9', value: '9' },
+  //   { label: '9½', value: '9.5' },
+  //   { label: '10', value: '10' },
+  //   { label: '10½', value: '10.5' },
+  //   { label: '11', value: '11' },
+  //   { label: '11½', value: '11.5' },
+  //   { label: '12', value: '12' },
+  //   { label: '12½', value: '12.5' },
+  //   { label: '13', value: '13' },
+  //   { label: '13½', value: '13.5' },
+  //   { label: '14', value: '14' },
+  //   { label: '14½', value: '14.5' },
+  // ];
 
   const theme = {
     ...DefaultTheme,
@@ -121,7 +122,7 @@ export default function Index() {
 
 
 
-        <View>
+        {/* <View>
           <Dropdown
             label="Desired Ring Size"
             placeholder="Select a ring size"
@@ -130,11 +131,11 @@ export default function Index() {
             onSelect={setRingSize}
             mode="outlined"
           />
-        </View>
+        </View> */}
 
 
 
-        {/* <View style={styles.pickerContainer}>
+        <View style={styles.pickerContainer}>
           <Picker
             selectedValue={ringSize}
             style={styles.picker}
@@ -144,7 +145,7 @@ export default function Index() {
               <Picker.Item key={size} label={size.toString()} value={size.toString()} />
             ))}
           </Picker>
-        </View> */}
+        </View>
 
 
         {/* <TextInput
@@ -157,6 +158,7 @@ export default function Index() {
 
 
         <TextInput
+          style={styles.input}
           label="Metal Thickness (mm)" // Label prop for floating label (part of react-native-paper)
           mode="outlined" // Optional: adds an outline (part of react-native-paper)
           // placeholder={isGauge ? "Metal Thickness (Gauge)" : "Metal Thickness (mm)"} // (just a part of core but react-native-paper is better)
@@ -165,6 +167,7 @@ export default function Index() {
           onChangeText={setMetalThickness}
         />
         <TextInput
+          style={styles.input}
           label="Metal Width (mm)" // Label prop for floating label (part of react-native-paper)
           mode="outlined" // Optional: adds an outline (part of react-native-paper)
           // placeholder="Metal Width (mm)" // (just a part of core but react-native-paper is better)
@@ -173,7 +176,7 @@ export default function Index() {
           onChangeText={setMetalWidth}
         />
         <Button
-          style={styles.input}
+          style={styles.button}
           mode="contained"
           onPress={calculateBlankLength}
         >
@@ -197,6 +200,9 @@ const styles = StyleSheet.create({
     marginTop: 15,
   },
   input: {
+    marginTop: 8,
+  },
+  button: {
     marginTop: 15,
   },
   switchContainer: {
